@@ -1,0 +1,29 @@
+#navbar {
+    font-size: 40px;
+}
+
+h4 {
+    margin-left: 10px;
+}
+
+#search-input {
+    margin-left: 10px;
+}
+
+#current-city {
+    margin-right: 20px;
+    margin-top: 20px;
+    padding: auto;
+}
+
+#boxes {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card {
+    float: left;
+    height: 200px;
+    width: 50px;
+}
