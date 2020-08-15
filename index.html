@@ -15,14 +15,14 @@
       <div class="col-md-3">
         <h4>Search for a City:</h4>
         <input type="text" id = "search-input">
-        <input type="button" value="Click me">
+        <button data-search="city"></button>
       </div>
       <div class="col-md-9">
         <div class="jumbotron jumbotron-fluid" id="current-city">
           <div class="container">
             <h1 class="display-4" id ="selected-city"></h1>
-            <p class="lead" id ="temperature"></p>
-            <p class="lead" id ="humidity"></p>
+            <p class="lead" id ="current-temperature"></p>
+            <p class="lead" id ="current-humidity"></p>
             <p class="lead" id ="wind-speed"></p>
             <p class="lead" id ="uv-index"></p>
           </div>
@@ -32,45 +32,65 @@
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-9" id ="boxes">
-        <div class="card" style="width: 18rem;" id="day1">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <div class="container-fluid">
+          <div class="card" style="width: 18rem;" id="day1">
+            <div class="card-body">
+              <h5 class="card-title" id="selected-date">Card title</h5>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem;" id="day2">
+            <div class="card-body">
+              <h5 class="card-title" id="selected-date">Card title</h5>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem;" id="day3">
+            <div class="card-body">
+              <h5 class="card-title" id="selected-date">Card title</h5>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem;" id="day4">
+            <div class="card-body">
+              <h5 class="card-title" id="selected-date">Card title</h5>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem;" id="day5">
+            <div class="card-body">
+              <h5 class="card-title" id="selected-date">Card title</h5>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
+              <br>
+              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
+            </div>
           </div>
         </div>
-        <div class="card" style="width: 18rem;" id="day2">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
-        <div class="card" style="width: 18rem;" id="day3">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
-        <div class="card" style="width: 18rem;" id="day4">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
-        <div class="card" style="width: 18rem;" id="day5">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
-
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
 
+      $("button").on("click", function() {
+      
+        var city = $(this).attr("data-search");
+
+        var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=8ad66be05c21a1c3967cb90ab1da0b89";
+    
+    </script>
     
 </body>
 </html>
