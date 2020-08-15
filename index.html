@@ -15,7 +15,7 @@
       <div class="col-md-3">
         <h4>Search for a City:</h4>
         <input type="text" id = "search-input">
-        <button data-search="city"></button>
+        <button data-search="city">Search</button>
       </div>
       <div class="col-md-9">
         <div class="jumbotron jumbotron-fluid" id="current-city">
@@ -88,7 +88,26 @@
       
         var city = $(this).attr("data-search");
 
-        var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=8ad66be05c21a1c3967cb90ab1da0b89";
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=8ad66be05c21a1c3967cb90ab1da0b89";
+
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        // After the data comes back from the API
+        .then(function(response) {
+          // Storing an array of results in the results variable
+          console.log(response)
+
+          var cityName = $("#search-input").text
+          var tempVal = response.main.temp
+          console.log(cityName)
+          console.log(tempVal)
+
+
+          });
+
+      });
     
     </script>
     
