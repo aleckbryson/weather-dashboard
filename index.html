@@ -1,114 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="assets/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <title>Weather Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/style.css">
+  <title>Weather</title>
 </head>
 <body>
-  <nav class="navbar navbar-dark bg-dark">
-    <span class="navbar-brand mb-0 h1 container-fluid-nav text-center" id="navbar">Weather Dashboard</span>
-  </nav>
+  <header class="container-fluid bg-dark text-white">
+    <div class="row justify-content-center">
+      <h1>Weather Dashboard</h1>
+    </div>
+  </header>
+
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-md-3">
-        <h4>Search for a City:</h4>
-        <input type="text" id = "search-input">
-        <button data-search="city">Search</button>
+      <div id="city-list" class="col-md-3 bg-light">
+        <h4 class="mt-3">Search for a City:</h4>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="City Name" aria-label="city name" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="city-search" type="button"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+
+        <table class="table table-light border">
+          <tbody>
+            <tr class="border" id="row0"></tr>
+            <tr class="border" id="row1"></tr>
+            <tr class="border" id="row2"></tr>
+            <tr class="border" id="row3"></tr>
+            <tr class="border" id="row4"></tr>
+            <tr class="border" id="row5"></tr>
+            <tr class="border" id="row6"></tr>
+            <tr class="border" id="row7"></tr>
+            <tr class="border" id="row8"></tr>
+            <tr class="border" id="row9"></tr>        
+        </table>
+              
       </div>
+
       <div class="col-md-9">
-        <div class="jumbotron jumbotron-fluid" id="current-city">
-          <div class="container">
-            <h1 class="display-4" id ="selected-city"></h1>
-            <p class="lead" id ="current-temperature"></p>
-            <p class="lead" id ="current-humidity"></p>
-            <p class="lead" id ="wind-speed"></p>
-            <p class="lead" id ="uv-index"></p>
+        <!--<div class="row">-->
+        <div class="card col-md-12 mt-3 mb-3">
+            <!--<h3 id="city-name" class="mt-2">City Name<img id="weather-icon" height="auto" width="auto"></h3>-->
+          <div id="forecast" class="card-body pl-0 pr-0">
+            <div class="row">
+              <div id="city-name" class="col-md-auto h3 navbar-text ">City Name</div>
+              <div class="col-md-2"><img id="weather-icon" height="auto" width="auto"></div>
+            </div>
+            <span id="temp-data"></span><br>
+            <span id="hum-data"></span><br>
+            <span id="wind-data"></span><br>
+            <span id="uvi-data"></span><br>
+          </div>
+
+        </div>
+
+        <div class="row">
+          
+        </div>
+
+        <div id="five-day-title" class="row">
+          <h3 class="ml-3">5-Day Forecast</h3>
+        </div>
+
+        <div id="five-day-cards" class="row">
+
+        <div class="col-md-2dot4">
+        <div id="five-day-1" class="card bg-primary text-white mb-1">
+          <div class="card-body">
+            <h6></h6>
+            <img class="weather-icon" height="auto" width="auto">
+              <p class="temp"></p>
+              <p class="hum small"></p>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-9" id ="boxes">
-        <div class="container-fluid">
-          <div class="card" style="width: 18rem;" id="day1">
-            <div class="card-body">
-              <h5 class="card-title" id="selected-date">Card title</h5>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
-            </div>
+        </div>
+
+        <div class="col-md-2dot4">
+        <div id="five-day-2" class="card bg-primary text-white mb-1">
+          <div class="card-body">
+            <h6></h6>
+            <img class="weather-icon" height="auto" width="auto">
+            <p class="temp small"></p>
+            <p class="hum small"></p>
           </div>
-          <div class="card" style="width: 18rem;" id="day2">
+        </div>
+        </div>
+
+        <div class="col-md-2dot4">
+          <div id="five-day-3" class="card bg-primary text-white mb-1">
             <div class="card-body">
-              <h5 class="card-title" id="selected-date">Card title</h5>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
-            </div>
-          </div>
-          <div class="card" style="width: 18rem;" id="day3">
-            <div class="card-body">
-              <h5 class="card-title" id="selected-date">Card title</h5>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
-            </div>
-          </div>
-          <div class="card" style="width: 18rem;" id="day4">
-            <div class="card-body">
-              <h5 class="card-title" id="selected-date">Card title</h5>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
-            </div>
-          </div>
-          <div class="card" style="width: 18rem;" id="day5">
-            <div class="card-body">
-              <h5 class="card-title" id="selected-date">Card title</h5>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="temp">Temp: </h6>
-              <br>
-              <h6 class="card-subtitle mb-2 text-muted" id="humidity">Humidity: </h6>
+              <h6></h6>
+              <img class="weather-icon" height="auto" width="auto">
+              <p class="temp small"></p>
+              <p class="hum small"></p>
             </div>
           </div>
         </div>
+
+        <div class="col-md-2dot4">
+          <div id="five-day-4" class="card bg-primary text-white mb-1">
+            <div class="card-body">
+              <h6></h6>
+              <img class="weather-icon" height="auto" width="auto">
+              <p class="temp small"></p>
+              <p class="hum small"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2dot4">
+          <div id="five-day-5" class="card bg-primary text-white mb-1">
+            <div class="card-body">
+              <h6></h6>
+              <img class="weather-icon" height="auto" width="auto">
+              <p class="temp small"></p>
+              <p class="hum small"></p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+  </div>
+
+  <footer></footer>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://kit.fontawesome.com/f53a07ee43.js" crossorigin="anonymous"></script>
+  <script src='config.js'></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
+      var cityLat = 0;
+      var cityLon = 0;
+      var cityName = ''; // for getting the city name from the response, if needed
+      var countryCode = '';
+      var tempInK = 0;
+      var humidity = 0;
+      var windSpeed = 0;
+      var uvIndex = 0;
+      var iconName = '';
+      var iconURL= 'https://openweathermap.org/img/wn/';
+      var weatherIcon = '';
+      var weatherInfoRequestPrefix = 'https://api.openweathermap.org/data/2.5/';
+      var fiveDayRequestPrefix = 'https://api.openweathermap.org/data/2.5/forecast?q='; // + &mode=json
+      var uviQuery = 'uvi?'
+      var apiKey = '&appid=8ad66be05c21a1c3967cb90ab1da0b89'
+      var searchHistory = {};
 
-      $("button").on("click", function() {
       
-        var city = $(this).attr("data-search");
-
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=8ad66be05c21a1c3967cb90ab1da0b89";
-
-        $.ajax({
-          url: queryURL,
-          method: "GET"
-        })
-        // After the data comes back from the API
-        .then(function(response) {
-          // Storing an array of results in the results variable
-          console.log(response)
-
-          var cityName = $("#search-input").text
-          var tempVal = response.main.temp
-          console.log(cityName)
-          console.log(tempVal)
-
-
-          });
-
-      });
-    
     </script>
     
 </body>
