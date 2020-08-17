@@ -71,7 +71,7 @@
           <div class="card-body">
             <h6></h6>
             <img class="weather-icon" height="auto" width="auto">
-              <p class="temp"></p>
+              <p class="temp small"></p>
               <p class="hum small"></p>
           </div>
         </div>
@@ -171,14 +171,14 @@
 
       $('#city-search').click(() => {
         event.preventDefault();
-        var citySearchString = validatedSearchString($('input').attr("placeholder", "City Name").val());
+        var citySearchString = checkSearchStr($('input').attr("placeholder", "City Name").val());
         getWeatherInfo(citySearchString);
       })
 
       $('input').keypress(event => {
         if (event.which == 13) {
           event.preventDefault();
-          var citySearchString = validatedSearchString($('input').attr("placeholder", "City Name").val());
+          var citySearchString = checkSearchStr($('input').attr("placeholder", "City Name").val());
           getWeatherInfo(citySearchString);
         }
       })
@@ -221,10 +221,95 @@
           method: "GET"
         })
         .then(response => {
-          return setFiveDayData(response);
+          return dayData(response);
         })
       })
 
+      var checkSearchStr = (city => {
+        var search = city.split(',');
+        if(search.length > 1){
+          // make sure neither string is empty
+          var first = search[0].length;
+          var second = search[1].length;
+          if(first === 0 || second === 0) {
+            return first > second ? search[0] : search[1];
+          }
+          return search[0] + ',' + search[1];
+        } else {
+          return city;
+        }
+      })
+
+      var dateString = (unixTime => {
+        return moment(unixTime).format('MM/DD/YYYY');
+      })
+
+      var displayVal = (() => {
+        var searchString = cityName + ', ' + countryCode;
+        $('#city-name').text(searchString + ' (' + dateString(Date.now()) + ')');
+        appendSearchHis(searchString, Date.now());
+        renderSearchHistory();
+        $('#weather-icon').attr('src', iconURL + iconName + '.png')
+        $('#temp-data').text('Temperature: ' + 
+          (tempDir - 273.15).toFixed(2) + ' ' + String.fromCharCode(176) + 'C (' +
+          ((tempDir - 273.15) * 9/5 + 32).toFixed(2) + ' ' + String.fromCharCode(176) + 'F)');
+        $('#hum-data').text('Humidity: ' + humidity + '%');
+        $('#wind-data').text('Wind Speed: ' + windSpeed + ' MPH');
+        $('#uvi-data').text('UV Index: ' + uvIndex);
+      });
+
+      var dayData = (response => {
+        var dataArray = response.list;
+        var size = dataArray.length;
+        var dayNumber = 1;
+        for(var i = 0; i < size; i+=8) {
+          $(`#day-${dayNumber}`).find('h6').text(dateString(dataArray[i].dt * 1000));
+          $(`#day-${dayNumber}`).find('.weather-icon').attr('src', iconURL + dataArray[i].weather[0].icon + '.png');
+          $(`#day-${dayNumber}`).find('.temp').text('Temperature: ' + 
+            (dataArray[i].main.temp - 273.15).toFixed(2) + ' ' + String.fromCharCode(176) + 'C (' +
+            ((dataArray[i].main.temp - 273.15) * 9/5 + 32).toFixed(2) + ' ' + String.fromCharCode(176) + 'F)');
+          $(`#day-${dayNumber}`).find('.hum').text('Humidity: ' + dataArray[i].main.humidity + '%');
+          ++ dayNumber;
+        }
+      })
+
+      var saveToLoc = (searchHis => {
+        return localStorage.setItem('searchHistory', JSON.stringify(searchHis));
+      });
+
+      var appendSearchHis = (searchString, timeStamp) => {
+        var obj = {
+          "searchString": searchString,
+          "timeStamp": timeStamp
+        }
+        var searchHis = JSON.parse(localStorage.getItem('searchHistory'));
+        if(!searchHis) {
+          searchHis = [];
+        }
+
+        var len = searchHis.length;
+        var inArray = false;
+        for(var i = 0; i < len; ++i) {
+          if(searchHis[i].searchString === obj.searchString) {
+            searchHis[i].timeStamp = obj.timeStamp;
+            inArray = true;
+          }
+        }
+
+        if(inArray === false) {
+          searchHis.push(obj);
+        }
+
+        searchHis.sort((b, a) => {
+          return a.timeStamp - b.timeStamp;
+        });
+
+        while(searchHis.length > 10) {
+          var popResult = searchHis.pop();
+        }
+
+        saveToLoc(searchHis);
+      }
       
   </script>
     
