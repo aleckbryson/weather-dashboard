@@ -162,7 +162,7 @@
 
       $("table" ).on( "click", "button.recent", function() {
         event.preventDefault();
-        getWeatherInformation($(this).text());
+        getWeatherInfo($(this).text());
       });
 
       var initializeLocalStorage = (() => {
@@ -172,15 +172,57 @@
       $('#city-search').click(() => {
         event.preventDefault();
         var citySearchString = validatedSearchString($('input').attr("placeholder", "City Name").val());
-        getWeatherInformation(citySearchString);
+        getWeatherInfo(citySearchString);
       })
 
       $('input').keypress(event => {
         if (event.which == 13) {
           event.preventDefault();
           var citySearchString = validatedSearchString($('input').attr("placeholder", "City Name").val());
-          getWeatherInformation(citySearchString);
+          getWeatherInfo(citySearchString);
         }
+      })
+
+      var getWeatherInfo = (citySearchString => {
+        var cityQuery = 'weather?q=' + citySearchString;
+        $.ajax({
+          url: weatherInfo + cityQuery + apiKey,
+          method: "GET",
+          error: (err => {
+            alert("Your city was not found. Check your spelling, or enter a city name with a country code, separated by a comma")
+            return;
+          })
+        })
+        .then((response) => {
+          cityLat = response.coord.lat;
+          cityLon = response.coord.lon;
+          cityName = response.name;
+          countryCode = response.sys.country;
+          tempDir = response.main.temp;
+          humidity = response.main.humidity;
+          windSpeed = response.wind.speed;
+          iconName = response.weather[0].icon;
+        })
+        .then(() => {
+          return $.ajax({
+            url: weatherInfo + uviQuery + apiKey + '&lat=' + cityLat + '&lon=' + cityLon,
+            method: "GET"
+          })
+          .then(response => {
+            uvIndex = response.value;
+          })
+          .then(() => {
+            displayVal();
+          })
+        })
+
+        $.ajax({
+          url: fiveDayRequestPrefix + citySearchString + apiKey,
+          method: "GET"
+        })
+        .then(response => {
+          return setFiveDayData(response);
+        })
       })
 
       
