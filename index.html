@@ -42,9 +42,7 @@
       </div>
 
       <div class="col-md-9">
-        <!--<div class="row">-->
         <div class="card col-md-12 mt-3 mb-3">
-            <!--<h3 id="city-name" class="mt-2">City Name<img id="weather-icon" height="auto" width="auto"></h3>-->
           <div id="forecast" class="card-body pl-0 pr-0">
             <div class="row">
               <div id="city-name" class="col-md-auto h3 navbar-text ">City Name</div>
@@ -62,14 +60,14 @@
           
         </div>
 
-        <div id="five-day-title" class="row">
+        <div id="day-title" class="row">
           <h3 class="ml-3">5-Day Forecast</h3>
         </div>
 
-        <div id="five-day-cards" class="row">
+        <div id="day-cards" class="row">
 
         <div class="col-md-2dot4">
-        <div id="five-day-1" class="card bg-primary text-white mb-1">
+        <div id="day-1" class="card bg-primary text-white mb-1">
           <div class="card-body">
             <h6></h6>
             <img class="weather-icon" height="auto" width="auto">
@@ -80,7 +78,7 @@
         </div>
 
         <div class="col-md-2dot4">
-        <div id="five-day-2" class="card bg-primary text-white mb-1">
+        <div id="day-2" class="card bg-primary text-white mb-1">
           <div class="card-body">
             <h6></h6>
             <img class="weather-icon" height="auto" width="auto">
@@ -91,7 +89,7 @@
         </div>
 
         <div class="col-md-2dot4">
-          <div id="five-day-3" class="card bg-primary text-white mb-1">
+          <div id="day-3" class="card bg-primary text-white mb-1">
             <div class="card-body">
               <h6></h6>
               <img class="weather-icon" height="auto" width="auto">
@@ -102,7 +100,7 @@
         </div>
 
         <div class="col-md-2dot4">
-          <div id="five-day-4" class="card bg-primary text-white mb-1">
+          <div id="day-4" class="card bg-primary text-white mb-1">
             <div class="card-body">
               <h6></h6>
               <img class="weather-icon" height="auto" width="auto">
@@ -113,7 +111,7 @@
         </div>
 
         <div class="col-md-2dot4">
-          <div id="five-day-5" class="card bg-primary text-white mb-1">
+          <div id="day-5" class="card bg-primary text-white mb-1">
             <div class="card-body">
               <h6></h6>
               <img class="weather-icon" height="auto" width="auto">
@@ -126,34 +124,67 @@
       </div>
     </div>
   </div>
-
-  <footer></footer>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://kit.fontawesome.com/f53a07ee43.js" crossorigin="anonymous"></script>
-  <script src='config.js'></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+      var cityName = '';
+      var countryCode = '';
       var cityLat = 0;
       var cityLon = 0;
-      var cityName = ''; // for getting the city name from the response, if needed
-      var countryCode = '';
-      var tempInK = 0;
+      var tempDir = 0;
       var humidity = 0;
       var windSpeed = 0;
       var uvIndex = 0;
       var iconName = '';
       var iconURL= 'https://openweathermap.org/img/wn/';
       var weatherIcon = '';
-      var weatherInfoRequestPrefix = 'https://api.openweathermap.org/data/2.5/';
-      var fiveDayRequestPrefix = 'https://api.openweathermap.org/data/2.5/forecast?q='; // + &mode=json
+      var weatherInfo = 'https://api.openweathermap.org/data/2.5/';
+      var fiveDayRequestPrefix = 'https://api.openweathermap.org/data/2.5/forecast?q='; 
       var uviQuery = 'uvi?'
       var apiKey = '&appid=8ad66be05c21a1c3967cb90ab1da0b89'
       var searchHistory = {};
 
+      $(document).ready(() => {
+      renderSearchHistory();
+      })
+
+      var renderSearchHistory = () => {
+        var searchHis = JSON.parse(localStorage.getItem('searchHistory'));
+        if(searchHis) {
+          arrayLength = searchHis.length;
+          for(var i = 0; i < arrayLength; ++i) {
+            $(`#row${i}`).html(`<td><button class="recent btn btn-link p-0 text-muted">${searchHis[i].searchString}</button></td>`);
+          }
+        }
+      }
+
+      $("table" ).on( "click", "button.recent", function() {
+        event.preventDefault();
+        getWeatherInformation($(this).text());
+      });
+
+      var initializeLocalStorage = (() => {
+        localStorage.setItem('searchHistory', '[]');
+      });
+
+      $('#city-search').click(() => {
+        event.preventDefault();
+        var citySearchString = validatedSearchString($('input').attr("placeholder", "City Name").val());
+        getWeatherInformation(citySearchString);
+      })
+
+      $('input').keypress(event => {
+        if (event.which == 13) {
+          event.preventDefault();
+          var citySearchString = validatedSearchString($('input').attr("placeholder", "City Name").val());
+          getWeatherInformation(citySearchString);
+        }
+      })
+
       
-    </script>
+  </script>
     
 </body>
 </html>
